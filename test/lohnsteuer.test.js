@@ -225,6 +225,32 @@ describe('lohnsteuer', function () {
         });
     });
 
+    it('should return the algorithm based on the date for 2023', function () {
+        expect(lohnsteuer.algorithmForDate(new Date(2023, 2, 1), {asNumbers: true})({
+            STKL: 1,
+            LZZ: 1,
+            RE4: 2500000
+        })).to.eql({
+            BK: 0,
+            BKS: 0,
+            BKV: 0,
+            LSTLZZ: 178000,
+            SOLZLZZ: 0,
+            SOLZS: 0,
+            SOLZV: 0,
+            STS: 0,
+            STV: 0,
+            VKVLZZ: 0,
+            VKVSONST: 0,
+            VFRB: 120000,
+            VFRBS1: 0,
+            VFRBS2: 0,
+            WVFRB: 839900,
+            WVFRBO: 0,
+            WVFRBM: 0
+        });
+    });
+
     it('should throw if no algorithm is available', function () {
         expect(function () {
             lohnsteuer.algorithmByName('2001');

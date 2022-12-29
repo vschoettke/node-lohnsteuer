@@ -18,4 +18,5 @@ node helper/convert.js helper/Lohnsteuer2019.xml >lohnsteuer/lohnsteuer2019.js &
 node helper/convert.js helper/Lohnsteuer2020.xml >lohnsteuer/lohnsteuer2020.js && \
 node helper/convert.js helper/Lohnsteuer2021.xml >lohnsteuer/lohnsteuer2021.js && \
 node helper/convert.js helper/Lohnsteuer2022.xml >lohnsteuer/lohnsteuer2022.js && \
+node helper/convert.js helper/Lohnsteuer2023.xml >lohnsteuer/lohnsteuer2023.js && \
 echo "done"
