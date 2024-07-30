@@ -7,9 +7,9 @@ var strict = true; // set to false for html-mode
 
 var header = "/*jslint node:true*/\n" +
         "\"use strict\";\n" +
-        "\nvar BigDecimal = require(\"big-decimal\");\n" +
+        "\nvar BigDecimal = require(\"js-big-decimal\");\n" +
         "if (typeof BigDecimal !== \"function\") {\n" +
-        "    BigDecimal = BigDecimal.BigDecimal;\n" +
+        "    BigDecimal = BigDecimal.default;\n" +
         "}\n\n";
 
 var result = "";
@@ -33,7 +33,12 @@ function cleanupCode(codeLine) {
         .replace(/BigDecimal\.valueOf\(((?:\d+)(?:\.\d*)?)[LD]?\)/g, "new BigDecimal(\"$1\")")
         .replace(/BigDecimal\.valueOf\((.*?)\)/g, "new BigDecimal(String($1))")
         .replace(classPrefix, "") // remove the class prefix, all is local
-        .replace(/new\sBigDecimal\("0(?:\.0*)?"\)/g, "BigDecimal.ZERO")
+        .replace(/new\sBigDecimal\("0(?:\.0*)?"\)/g, "new BigDecimal(\"0\")")
+        .replace(/BigDecimal\.ZERO/g, "new BigDecimal(\"0\")")
+        .replace(/BigDecimal\.ONE/g, "new BigDecimal(\"1\")")
+        .replace(/\.longValue\(\)/g, ".floor()")
+        .replace(/\.setScale\((\d+),\s*BigDecimal\.ROUND_(\w+)\)/g, ".round($1, BigDecimal.RoundingModes.$2)") // replace Java BigDecimal.setScale method with .round equivalent
+        .replace(/\.divide\((\w+),\s*(\d+),\s*BigDecimal\.ROUND_(\w+)\)/g, ".divide($1).round($2, BigDecimal.RoundingModes.$3)") // replace Java BigDecimal.divide method with .divide and .round equivalents
         .trim();
 }
 
@@ -76,7 +81,7 @@ function appendInputVariableDeclaration(data) {
             data.default === undefined
                 ? "(args." + data.name + " !== undefined) ? " + wrappedInputArg + " : " + (
                     data.type === "BigDecimal"
-                        ? "BigDecimal.ZERO"
+                        ? "new BigDecimal(\"0\")"
                         : "0"
                 )
                 : "(args." + data.name + " !== undefined) ? " + wrappedInputArg + " : " + cleanupCode(data.default)

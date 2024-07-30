@@ -5,14 +5,14 @@ var lohnsteuerFuncs = require("./lohnsteuer");
 
 function resultsToNumbers(results) {
     return Object.keys(results).reduce(function (res, key) {
-        res[key] = +String(results[key]);
+        res[key] = +String(results[key].value);
         return res;
     }, {});
 }
 
 function resultsToStrings(results) {
     return Object.keys(results).reduce(function (res, key) {
-        res[key] = String(results[key]);
+        res[key] = String(results[key].value);
         return res;
     }, {});
 }
