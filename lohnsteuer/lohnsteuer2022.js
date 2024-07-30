@@ -1,13 +1,13 @@
 /*jslint node:true*/
 "use strict";
 
-var BigDecimal = require("big-decimal");
+var BigDecimal = require("js-big-decimal");
 if (typeof BigDecimal !== "function") {
-    BigDecimal = BigDecimal.BigDecimal;
+    BigDecimal = BigDecimal.default;
 }
 
 // const BigDecimal[]
-var TAB1 = [BigDecimal.ZERO,
+var TAB1 = [new BigDecimal("0"),
 new BigDecimal("0.4"),
 new BigDecimal("0.384"),
 new BigDecimal("0.368"),
@@ -43,9 +43,9 @@ new BigDecimal("0.032"),
 new BigDecimal("0.024"),
 new BigDecimal("0.016"),
 new BigDecimal("0.008"),
-BigDecimal.ZERO];
+new BigDecimal("0")];
 // const BigDecimal[]
-var TAB2 = [BigDecimal.ZERO,
+var TAB2 = [new BigDecimal("0"),
 new BigDecimal("3000"),
 new BigDecimal("2880"),
 new BigDecimal("2760"),
@@ -81,9 +81,9 @@ new BigDecimal("240"),
 new BigDecimal("180"),
 new BigDecimal("120"),
 new BigDecimal("60"),
-BigDecimal.ZERO];
+new BigDecimal("0")];
 // const BigDecimal[]
-var TAB3 = [BigDecimal.ZERO,
+var TAB3 = [new BigDecimal("0"),
 new BigDecimal("900"),
 new BigDecimal("864"),
 new BigDecimal("828"),
@@ -119,9 +119,9 @@ new BigDecimal("72"),
 new BigDecimal("54"),
 new BigDecimal("36"),
 new BigDecimal("18"),
-BigDecimal.ZERO];
+new BigDecimal("0")];
 // const BigDecimal[]
-var TAB4 = [BigDecimal.ZERO,
+var TAB4 = [new BigDecimal("0"),
 new BigDecimal("0.4"),
 new BigDecimal("0.384"),
 new BigDecimal("0.368"),
@@ -157,9 +157,9 @@ new BigDecimal("0.032"),
 new BigDecimal("0.024"),
 new BigDecimal("0.016"),
 new BigDecimal("0.008"),
-BigDecimal.ZERO];
+new BigDecimal("0")];
 // const BigDecimal[]
-var TAB5 = [BigDecimal.ZERO,
+var TAB5 = [new BigDecimal("0"),
 new BigDecimal("1900"),
 new BigDecimal("1824"),
 new BigDecimal("1748"),
@@ -195,9 +195,9 @@ new BigDecimal("152"),
 new BigDecimal("114"),
 new BigDecimal("76"),
 new BigDecimal("38"),
-BigDecimal.ZERO];
+new BigDecimal("0")];
 // const BigDecimal
-var ZAHL1 = BigDecimal.ONE;
+var ZAHL1 = new BigDecimal("1");
 // const BigDecimal
 var ZAHL2 = new BigDecimal("2");
 // const BigDecimal
@@ -240,7 +240,7 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  sowie tarifermäßigt zu besteuernde Vorteile bei Vermögensbeteiligungen
     //                  (§ 19a Absatz 4 EStG) in Cent
     // BigDecimal
-    var ENTSCH = (args.ENTSCH !== undefined) ? new BigDecimal(String(args.ENTSCH)) : BigDecimal.ZERO;
+    var ENTSCH = (args.ENTSCH !== undefined) ? new BigDecimal(String(args.ENTSCH)) : new BigDecimal("0");
 
     //  eingetragener Faktor mit drei Nachkommastellen
     // double
@@ -251,14 +251,14 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung
     //                  auf der Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0)
     // BigDecimal - Implicit Default
-    var JFREIB = (args.JFREIB !== undefined) ? new BigDecimal(String(args.JFREIB)) : BigDecimal.ZERO;
+    var JFREIB = (args.JFREIB !== undefined) ? new BigDecimal(String(args.JFREIB)) : new BigDecimal("0");
 
     //  Jahreshinzurechnungsbetrag für die Ermittlung der Lohnsteuer für die sonstigen Bezüge
     //                  sowie für Vermögensbeteiligungen nach § 19a Absatz 1 und 4 EStG nach Maßgabe der
     //                  elektronischen Lohnsteuerabzugsmerkmale nach § 39e EStG oder der Eintragung auf der
     //                  Bescheinigung für den Lohnsteuerabzug 2022 in Cent (ggf. 0)
     // BigDecimal - Implicit Default
-    var JHINZU = (args.JHINZU !== undefined) ? new BigDecimal(String(args.JHINZU)) : BigDecimal.ZERO;
+    var JHINZU = (args.JHINZU !== undefined) ? new BigDecimal(String(args.JHINZU)) : new BigDecimal("0");
 
     //  Voraussichtlicher Jahresarbeitslohn ohne sonstige Bezüge (d.h. auch ohne Vergütung
     //                  für mehrjährige Tätigkeit und ohne die zu besteuernden Vorteile bei Vermögensbeteiligungen,
@@ -271,11 +271,11 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  mehrjährige Tätigkeit aus einem vorangegangenen Abrechnungszeitraum werden in voller
     //                  Höhe hinzugerechnet.
     // BigDecimal - Implicit Default
-    var JRE4 = (args.JRE4 !== undefined) ? new BigDecimal(String(args.JRE4)) : BigDecimal.ZERO;
+    var JRE4 = (args.JRE4 !== undefined) ? new BigDecimal(String(args.JRE4)) : new BigDecimal("0");
 
     //  In JRE4 enthaltene Versorgungsbezuege in Cents (ggf. 0)
     // BigDecimal - Implicit Default
-    var JVBEZ = (args.JVBEZ !== undefined) ? new BigDecimal(String(args.JVBEZ)) : BigDecimal.ZERO;
+    var JVBEZ = (args.JVBEZ !== undefined) ? new BigDecimal(String(args.JVBEZ)) : new BigDecimal("0");
 
     // Merker für die Vorsorgepauschale
     //                 2 = der Arbeitnehmer ist NICHT in der gesetzlichen Rentenversicherung versichert.
@@ -293,7 +293,7 @@ module.exports = function Lohnsteuer2022Big(args) {
     //              in Prozent (bspw. 0,90 für 0,90 %) mit 2 Dezimalstellen.
     //              Der von der Kranken-kasse festgesetzte Zusatzbeitragssatz ist bei Abweichungen unmaßgeblich.
     // BigDecimal - Implicit Default
-    var KVZ = (args.KVZ !== undefined) ? new BigDecimal(String(args.KVZ)) : BigDecimal.ZERO;
+    var KVZ = (args.KVZ !== undefined) ? new BigDecimal(String(args.KVZ)) : new BigDecimal("0");
 
     //  Lohnzahlungszeitraum:
     //                  1 = Jahr
@@ -307,25 +307,25 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Freibetrag für den
     //                  Lohnzahlungszeitraum in Cent
     // BigDecimal - Implicit Default
-    var LZZFREIB = (args.LZZFREIB !== undefined) ? new BigDecimal(String(args.LZZFREIB)) : BigDecimal.ZERO;
+    var LZZFREIB = (args.LZZFREIB !== undefined) ? new BigDecimal(String(args.LZZFREIB)) : new BigDecimal("0");
 
     //  Der als elektronisches Lohnsteuerabzugsmerkmal für den Arbeitgeber nach § 39e EStG festgestellte
     //                  oder in der Bescheinigung für den Lohnsteuerabzug 2022 eingetragene Hinzurechnungsbetrag für den
     //                  Lohnzahlungszeitraum in Cent
     // BigDecimal - Implicit Default
-    var LZZHINZU = (args.LZZHINZU !== undefined) ? new BigDecimal(String(args.LZZHINZU)) : BigDecimal.ZERO;
+    var LZZHINZU = (args.LZZHINZU !== undefined) ? new BigDecimal(String(args.LZZHINZU)) : new BigDecimal("0");
 
     //  Nicht zu besteuernde Vorteile bei Vermögensbeteiligungen
     //                  (§ 19a Absatz 1 Satz 4 EStG) in Cent
     // BigDecimal - Implicit Default
-    var MBV = (args.MBV !== undefined) ? new BigDecimal(String(args.MBV)) : BigDecimal.ZERO;
+    var MBV = (args.MBV !== undefined) ? new BigDecimal(String(args.MBV)) : new BigDecimal("0");
 
     //  Dem Arbeitgeber mitgeteilte Zahlungen des Arbeitnehmers zur privaten
     //                  Kranken- bzw. Pflegeversicherung im Sinne des §10 Abs. 1 Nr. 3 EStG 2010
     //                  als Monatsbetrag in Cent (der Wert ist inabhängig vom Lohnzahlungszeitraum immer
     //                  als Monatsbetrag anzugeben).
     // BigDecimal
-    var PKPV = (args.PKPV !== undefined) ? new BigDecimal(String(args.PKPV)) : BigDecimal.ZERO;
+    var PKPV = (args.PKPV !== undefined) ? new BigDecimal(String(args.PKPV)) : new BigDecimal("0");
 
     //  Krankenversicherung:
     //                  0 = gesetzlich krankenversicherte Arbeitnehmer
@@ -355,20 +355,20 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  den Lohnsteuerabzug 2022 für den Lohnzahlungszeitraum eingetragenen Freibetrags bzw.
     //                  Hinzurechnungsbetrags in Cent
     // BigDecimal - Implicit Default
-    var RE4 = (args.RE4 !== undefined) ? new BigDecimal(String(args.RE4)) : BigDecimal.ZERO;
+    var RE4 = (args.RE4 !== undefined) ? new BigDecimal(String(args.RE4)) : new BigDecimal("0");
 
     //  Sonstige Bezüge (ohne Vergütung aus mehrjähriger Tätigkeit) einschließlich nicht tarifermäßigt
     //                  zu besteuernde Vorteile bei Vermögensbeteiligungen und Sterbegeld bei Versorgungsbezügen sowie
     //                  Kapitalauszahlungen/Abfindungen, soweit es sich nicht um Bezüge für mehrere Jahre handelt,
     //                  in Cent (ggf. 0)
     // BigDecimal - Implicit Default
-    var SONSTB = (args.SONSTB !== undefined) ? new BigDecimal(String(args.SONSTB)) : BigDecimal.ZERO;
+    var SONSTB = (args.SONSTB !== undefined) ? new BigDecimal(String(args.SONSTB)) : new BigDecimal("0");
 
     //  Sterbegeld bei Versorgungsbezuegen sowie Kapitalauszahlungen/Abfindungen,
     //                  soweit es sich nicht um Bezuege fuer mehrere Jahre handelt
     //                  (in SONSTB enthalten) in Cents
     // BigDecimal - Implicit Default
-    var STERBE = (args.STERBE !== undefined) ? new BigDecimal(String(args.STERBE)) : BigDecimal.ZERO;
+    var STERBE = (args.STERBE !== undefined) ? new BigDecimal(String(args.STERBE)) : new BigDecimal("0");
 
     //  Steuerklasse:
     //                  1 = I
@@ -382,23 +382,23 @@ module.exports = function Lohnsteuer2022Big(args) {
 
     //  In RE4 enthaltene Versorgungsbezuege in Cents (ggf. 0)
     // BigDecimal - Implicit Default
-    var VBEZ = (args.VBEZ !== undefined) ? new BigDecimal(String(args.VBEZ)) : BigDecimal.ZERO;
+    var VBEZ = (args.VBEZ !== undefined) ? new BigDecimal(String(args.VBEZ)) : new BigDecimal("0");
 
     //  Vorsorgungsbezug im Januar 2005 bzw. fuer den ersten vollen Monat
     //                  in Cents
     // BigDecimal - Implicit Default
-    var VBEZM = (args.VBEZM !== undefined) ? new BigDecimal(String(args.VBEZM)) : BigDecimal.ZERO;
+    var VBEZM = (args.VBEZM !== undefined) ? new BigDecimal(String(args.VBEZM)) : new BigDecimal("0");
 
     //  Voraussichtliche Sonderzahlungen im Kalenderjahr des Versorgungsbeginns
     //                  bei Versorgungsempfaengern ohne Sterbegeld, Kapitalauszahlungen/Abfindungen
     //                  bei Versorgungsbezuegen in Cents
     // BigDecimal - Implicit Default
-    var VBEZS = (args.VBEZS !== undefined) ? new BigDecimal(String(args.VBEZS)) : BigDecimal.ZERO;
+    var VBEZS = (args.VBEZS !== undefined) ? new BigDecimal(String(args.VBEZS)) : new BigDecimal("0");
 
     //  In SONSTB enthaltene Versorgungsbezuege einschliesslich Sterbegeld
     //                 in Cents (ggf. 0)
     // BigDecimal - Implicit Default
-    var VBS = (args.VBS !== undefined) ? new BigDecimal(String(args.VBS)) : BigDecimal.ZERO;
+    var VBS = (args.VBS !== undefined) ? new BigDecimal(String(args.VBS)) : new BigDecimal("0");
 
     //  Jahr, in dem der Versorgungsbezug erstmalig gewaehrt wurde; werden
     //                  mehrere Versorgungsbezuege gezahlt, so gilt der aelteste erstmalige Bezug
@@ -408,19 +408,19 @@ module.exports = function Lohnsteuer2022Big(args) {
     //  Kapitalauszahlungen / Abfindungen / Nachzahlungen bei Versorgungsbezügen
     //                  für mehrere Jahre in Cent (ggf. 0)
     // BigDecimal - Implicit Default
-    var VKAPA = (args.VKAPA !== undefined) ? new BigDecimal(String(args.VKAPA)) : BigDecimal.ZERO;
+    var VKAPA = (args.VKAPA !== undefined) ? new BigDecimal(String(args.VKAPA)) : new BigDecimal("0");
 
     //  Entschädigungen und Vergütung für mehrjährige Tätigkeit sowie tarifermäßigt
     //                  zu besteuernde Vorteile bei Vermögensbeteiligungen (§ 19a Absatz 4 Satz 2 EStG)
     //                  ohne Kapitalauszahlungen und ohne Abfindungen bei Versorgungsbezügen
     //                  in Cent (ggf. 0)
     // BigDecimal - Implicit Default
-    var VMT = (args.VMT !== undefined) ? new BigDecimal(String(args.VMT)) : BigDecimal.ZERO;
+    var VMT = (args.VMT !== undefined) ? new BigDecimal(String(args.VMT)) : new BigDecimal("0");
 
     //  Zahl der Freibetraege fuer Kinder (eine Dezimalstelle, nur bei Steuerklassen
     //                  I, II, III und IV)
     // BigDecimal - Implicit Default
-    var ZKF = (args.ZKF !== undefined) ? new BigDecimal(String(args.ZKF)) : BigDecimal.ZERO;
+    var ZKF = (args.ZKF !== undefined) ? new BigDecimal(String(args.ZKF)) : new BigDecimal("0");
 
     //  Zahl der Monate, fuer die Versorgungsbezuege gezahlt werden (nur
     //                  erforderlich bei Jahresberechnung (LZZ = 1)
@@ -430,16 +430,16 @@ module.exports = function Lohnsteuer2022Big(args) {
     //  In JRE4 enthaltene Entschädigungen nach § 24 Nummer 1 EStG und zu besteuernde
     //                  Vorteile bei Vermögensbeteiligungen (§ 19a Absatz 4 EStG in Cent
     // BigDecimal
-    var JRE4ENT = (args.JRE4ENT !== undefined) ? new BigDecimal(String(args.JRE4ENT)) : BigDecimal.ZERO;
+    var JRE4ENT = (args.JRE4ENT !== undefined) ? new BigDecimal(String(args.JRE4ENT)) : new BigDecimal("0");
 
     //  In SONSTB enthaltene Entschädigungen nach § 24 Nummer 1 EStG sowie nicht
     //                  tarifermäßigt zu besteuernde Vorteile bei Vermögensbeteiligungen in Cent
     // BigDecimal
-    var SONSTENT = (args.SONSTENT !== undefined) ? new BigDecimal(String(args.SONSTENT)) : BigDecimal.ZERO;
+    var SONSTENT = (args.SONSTENT !== undefined) ? new BigDecimal(String(args.SONSTENT)) : new BigDecimal("0");
 
     //   AUSGABEPARAMETER
     //  Bemessungsgrundlage fuer die Kirchenlohnsteuer in Cents
-    var BK = BigDecimal.ZERO; // BigDecimal
+    var BK = new BigDecimal("0"); // BigDecimal
 
     //  Bemessungsgrundlage der sonstigen Bezüge (ohne Vergütung für mehrjährige Tätigkeit)
     //                  für die Kirchenlohnsteuer in Cent.
@@ -447,29 +447,29 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  Vermögensbeteiligungen (§ 19a Absatz 1 Satz 4 EStG) resultieren, mindern BK
     //                  (maximal bis 0). Der Sonderausgabenabzug für tatsächlich erbrachte Vorsorgeaufwendungen
     //                  im Rahmen der Veranlagung zur Einkommensteuer bleibt unberührt.
-    var BKS = BigDecimal.ZERO; // BigDecimal
+    var BKS = new BigDecimal("0"); // BigDecimal
 
     //  Bemessungsgrundlage der Vergütung für mehrjährige Tätigkeit und der tarifermäßigt
     //                  zu besteuernden Vorteile bei Vermögensbeteiligungen für die Kirchenlohnsteuer in Cent
-    var BKV = BigDecimal.ZERO; // BigDecimal
+    var BKV = new BigDecimal("0"); // BigDecimal
 
     //  Fuer den Lohnzahlungszeitraum einzubehaltende Lohnsteuer in Cents
-    var LSTLZZ = BigDecimal.ZERO; // BigDecimal
+    var LSTLZZ = new BigDecimal("0"); // BigDecimal
 
     //  Fuer den Lohnzahlungszeitraum einzubehaltender Solidaritaetszuschlag
     //                  in Cents
-    var SOLZLZZ = BigDecimal.ZERO; // BigDecimal
+    var SOLZLZZ = new BigDecimal("0"); // BigDecimal
 
     //  Solidaritätszuschlag für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit in Cent.
     //                  Hinweis: Negativbeträge, die aus nicht zu besteuernden Vorteilen bei Vermögensbeteiligungen
     //                  (§ 19a Absatz 1 Satz 4 EStG) resultieren, mindern SOLZLZZ (maximal bis 0). Der
     //                  Sonderausgabenabzug für tatsächlich erbrachte Vorsorgeaufwendungen im Rahmen der
     //                  Veranlagung zur Einkommensteuer bleibt unberührt.
-    var SOLZS = BigDecimal.ZERO; // BigDecimal
+    var SOLZS = new BigDecimal("0"); // BigDecimal
 
     //  Solidaritätszuschlag für die Vergütung für mehrjährige Tätigkeit und der tarifermäßigt
     //                  zu besteuernden Vorteile bei Vermögensbeteiligungen in Cent
-    var SOLZV = BigDecimal.ZERO; // BigDecimal
+    var SOLZV = new BigDecimal("0"); // BigDecimal
 
     //  Lohnsteuer für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit und ohne
     //                  tarifermäßigt zu besteuernde Vorteile bei Vermögensbeteiligungen) in Cent
@@ -477,11 +477,11 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  (§ 19a Absatz 1 Satz 4 EStG) resultieren, mindern LSTLZZ (maximal bis 0). Der
     //                  Sonderausgabenabzug für tatsächlich erbrachte Vorsorgeaufwendungen im Rahmen der
     //                  Veranlagung zur Einkommensteuer bleibt unberührt.
-    var STS = BigDecimal.ZERO; // BigDecimal
+    var STS = new BigDecimal("0"); // BigDecimal
 
     //  Lohnsteuer für die Vergütung für mehrjährige Tätigkeit und der tarifermäßigt zu besteuernden
     //                  Vorteile bei Vermögensbeteiligungen in Cent
-    var STV = BigDecimal.ZERO; // BigDecimal
+    var STV = new BigDecimal("0"); // BigDecimal
 
     //  Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers zur
     //                  privaten Basis-Krankenversicherung und privaten Pflege-Pflichtversicherung (ggf. auch
@@ -489,122 +489,122 @@ module.exports = function Lohnsteuer2022Big(args) {
     //                  steuerbescheinigung sind die einzelnen Ausgabewerte außerhalb des eigentlichen Lohn-
     //                  steuerbescheinigungsprogramms zu addieren; hinzuzurechnen sind auch die Ausgabewerte
     //                  VKVSONST
-    var VKVLZZ = BigDecimal.ZERO; // BigDecimal
+    var VKVLZZ = new BigDecimal("0"); // BigDecimal
 
     //  Für den Lohnzahlungszeitraum berücksichtigte Beiträge des Arbeitnehmers
     //                  zur privaten Basis-Krankenversicherung und privaten Pflege-Pflichtversicherung (ggf.
     //                  auch die Mindestvorsorgepauschale) in Cent bei sonstigen Bezügen. Der Ausgabewert kann
     //                  auch negativ sein. Für tarifermäßigt zu besteuernde Vergütungen für mehrjährige
     //                  Tätigkeiten enthält der PAP keinen entsprechenden Ausgabewert.
-    var VKVSONST = BigDecimal.ZERO; // BigDecimal
+    var VKVSONST = new BigDecimal("0"); // BigDecimal
 
     //   AUSGABEPARAMETER DBA
     //  Verbrauchter Freibetrag bei Berechnung des laufenden Arbeitslohns, in Cent
-    var VFRB = BigDecimal.ZERO; // BigDecimal
+    var VFRB = new BigDecimal("0"); // BigDecimal
 
     //  Verbrauchter Freibetrag bei Berechnung des voraussichtlichen Jahresarbeitslohns, in Cent
-    var VFRBS1 = BigDecimal.ZERO; // BigDecimal
+    var VFRBS1 = new BigDecimal("0"); // BigDecimal
 
     //  Verbrauchter Freibetrag bei Berechnung der sonstigen Bezüge, in Cent
-    var VFRBS2 = BigDecimal.ZERO; // BigDecimal
+    var VFRBS2 = new BigDecimal("0"); // BigDecimal
 
     //  Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei verfügbares ZVE über
     //                 dem Grundfreibetrag bei der Berechnung des laufenden Arbeitslohns, in Cent
-    var WVFRB = BigDecimal.ZERO; // BigDecimal
+    var WVFRB = new BigDecimal("0"); // BigDecimal
 
     //  Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei verfügbares ZVE über dem Grundfreibetrag
     //                 bei der Berechnung des voraussichtlichen Jahresarbeitslohns, in Cent
-    var WVFRBO = BigDecimal.ZERO; // BigDecimal
+    var WVFRBO = new BigDecimal("0"); // BigDecimal
 
     //  Für die weitergehende Berücksichtigung des Steuerfreibetrags nach dem DBA Türkei verfügbares ZVE
     //                 über dem Grundfreibetrag bei der Berechnung der sonstigen Bezüge, in Cent
-    var WVFRBM = BigDecimal.ZERO; // BigDecimal
+    var WVFRBM = new BigDecimal("0"); // BigDecimal
 
     //   INTERNE FELDER
     //  Altersentlastungsbetrag nach Alterseinkünftegesetz in €,
     //                      Cent (2 Dezimalstellen)
-    var ALTE = BigDecimal.ZERO; // BigDecimal
+    var ALTE = new BigDecimal("0"); // BigDecimal
 
     //  Arbeitnehmer-Pauschbetrag in EURO
-    var ANP = BigDecimal.ZERO; // BigDecimal
+    var ANP = new BigDecimal("0"); // BigDecimal
 
     //  Auf den Lohnzahlungszeitraum entfallender Anteil von Jahreswerten
     //                      auf ganze Cents abgerundet
-    var ANTEIL1 = BigDecimal.ZERO; // BigDecimal
+    var ANTEIL1 = new BigDecimal("0"); // BigDecimal
 
     //  Bemessungsgrundlage für Altersentlastungsbetrag in €, Cent
     //                      (2 Dezimalstellen)
-    var BMG = BigDecimal.ZERO; // BigDecimal
+    var BMG = new BigDecimal("0"); // BigDecimal
 
     //  Beitragsbemessungsgrenze in der gesetzlichen Krankenversicherung
     //                     und der sozialen Pflegeversicherung in Euro
-    var BBGKVPV = BigDecimal.ZERO; // BigDecimal
+    var BBGKVPV = new BigDecimal("0"); // BigDecimal
 
     //   Nach Programmablaufplan 2019
-    var bd = BigDecimal.ZERO; // BigDecimal
+    var bd = new BigDecimal("0"); // BigDecimal
 
     //  allgemeine Beitragsbemessungsgrenze in der allgemeinen Renten-versicherung in Euro
-    var BBGRV = BigDecimal.ZERO; // BigDecimal
+    var BBGRV = new BigDecimal("0"); // BigDecimal
 
     //  Differenz zwischen ST1 und ST2 in EURO
-    var DIFF = BigDecimal.ZERO; // BigDecimal
+    var DIFF = new BigDecimal("0"); // BigDecimal
 
     //  Entlastungsbetrag für Alleinerziehende in Euro
     //                      Hinweis: Der Entlastungsbetrag für Alleinerziehende beträgt ab
     //                      2022 4.008 Euro. Der Erhöhungsbetrag von 2.100 Euro, der für die
     //                      Jahre 2020 und 2021 galt, ist ab 2022 weggefallen (Jahressteuergesetz 2020).
-    var EFA = BigDecimal.ZERO; // BigDecimal
+    var EFA = new BigDecimal("0"); // BigDecimal
 
     //  Versorgungsfreibetrag in €, Cent (2 Dezimalstellen)
-    var FVB = BigDecimal.ZERO; // BigDecimal
+    var FVB = new BigDecimal("0"); // BigDecimal
 
     //  Versorgungsfreibetrag in €, Cent (2 Dezimalstellen) für die Berechnung
     //                      der Lohnsteuer für den sonstigen Bezug
-    var FVBSO = BigDecimal.ZERO; // BigDecimal
+    var FVBSO = new BigDecimal("0"); // BigDecimal
 
     //  Zuschlag zum Versorgungsfreibetrag in EURO
-    var FVBZ = BigDecimal.ZERO; // BigDecimal
+    var FVBZ = new BigDecimal("0"); // BigDecimal
 
     //  Zuschlag zum Versorgungsfreibetrag in EURO fuer die Berechnung
     //                      der Lohnsteuer beim sonstigen Bezug
-    var FVBZSO = BigDecimal.ZERO; // BigDecimal
+    var FVBZSO = new BigDecimal("0"); // BigDecimal
 
     //  Grundfreibetrag in Euro
-    var GFB = BigDecimal.ZERO; // BigDecimal
+    var GFB = new BigDecimal("0"); // BigDecimal
 
     //  Maximaler Altersentlastungsbetrag in €
-    var HBALTE = BigDecimal.ZERO; // BigDecimal
+    var HBALTE = new BigDecimal("0"); // BigDecimal
 
     //  Massgeblicher maximaler Versorgungsfreibetrag in €
-    var HFVB = BigDecimal.ZERO; // BigDecimal
+    var HFVB = new BigDecimal("0"); // BigDecimal
 
     //  Massgeblicher maximaler Zuschlag zum Versorgungsfreibetrag in €,Cent
     //                      (2 Dezimalstellen)
-    var HFVBZ = BigDecimal.ZERO; // BigDecimal
+    var HFVBZ = new BigDecimal("0"); // BigDecimal
 
     //  Massgeblicher maximaler Zuschlag zum Versorgungsfreibetrag in €, Cent
     //                      (2 Dezimalstellen) für die Berechnung der Lohnsteuer für den
     //                      sonstigen Bezug
-    var HFVBZSO = BigDecimal.ZERO; // BigDecimal
+    var HFVBZSO = new BigDecimal("0"); // BigDecimal
 
     //  Nummer der Tabellenwerte fuer Versorgungsparameter
     var J = 0; // int
 
     //  Jahressteuer nach § 51a EStG, aus der Solidaritaetszuschlag und
     //                      Bemessungsgrundlage fuer die Kirchenlohnsteuer ermittelt werden in EURO
-    var JBMG = BigDecimal.ZERO; // BigDecimal
+    var JBMG = new BigDecimal("0"); // BigDecimal
 
     //  Auf einen Jahreslohn hochgerechneter LZZFREIB in €, Cent
     //                      (2 Dezimalstellen)
-    var JLFREIB = BigDecimal.ZERO; // BigDecimal
+    var JLFREIB = new BigDecimal("0"); // BigDecimal
 
     //  Auf einen Jahreslohn hochgerechnete LZZHINZU in €, Cent
     //                      (2 Dezimalstellen)
-    var JLHINZU = BigDecimal.ZERO; // BigDecimal
+    var JLHINZU = new BigDecimal("0"); // BigDecimal
 
     //  Jahreswert, dessen Anteil fuer einen Lohnzahlungszeitraum in
     //                      UPANTEIL errechnet werden soll in Cents
-    var JW = BigDecimal.ZERO; // BigDecimal
+    var JW = new BigDecimal("0"); // BigDecimal
 
     //  Nummer der Tabellenwerte fuer Parameter bei Altersentlastungsbetrag
     var K = 0; // int
@@ -616,13 +616,13 @@ module.exports = function Lohnsteuer2022Big(args) {
     var KENNVMT = 0; // int
 
     //  Summe der Freibetraege fuer Kinder in EURO
-    var KFB = BigDecimal.ZERO; // BigDecimal
+    var KFB = new BigDecimal("0"); // BigDecimal
 
     //  Beitragssatz des Arbeitgebers zur Krankenversicherung
-    var KVSATZAG = BigDecimal.ZERO; // BigDecimal
+    var KVSATZAG = new BigDecimal("0"); // BigDecimal
 
     //  Beitragssatz des Arbeitnehmers zur Krankenversicherung
-    var KVSATZAN = BigDecimal.ZERO; // BigDecimal
+    var KVSATZAN = new BigDecimal("0"); // BigDecimal
 
     //  Kennzahl fuer die Einkommensteuer-Tabellenart:
     //                      1 = Grundtabelle
@@ -630,174 +630,174 @@ module.exports = function Lohnsteuer2022Big(args) {
     var KZTAB = 0; // int
 
     //  Jahreslohnsteuer in EURO
-    var LSTJAHR = BigDecimal.ZERO; // BigDecimal
+    var LSTJAHR = new BigDecimal("0"); // BigDecimal
 
     //  Zwischenfelder der Jahreslohnsteuer in Cent
-    var LST1 = BigDecimal.ZERO; // BigDecimal
+    var LST1 = new BigDecimal("0"); // BigDecimal
 
-    var LST2 = BigDecimal.ZERO; // BigDecimal
+    var LST2 = new BigDecimal("0"); // BigDecimal
 
-    var LST3 = BigDecimal.ZERO; // BigDecimal
+    var LST3 = new BigDecimal("0"); // BigDecimal
 
-    var LSTOSO = BigDecimal.ZERO; // BigDecimal
+    var LSTOSO = new BigDecimal("0"); // BigDecimal
 
-    var LSTSO = BigDecimal.ZERO; // BigDecimal
+    var LSTSO = new BigDecimal("0"); // BigDecimal
 
     //  Mindeststeuer fuer die Steuerklassen V und VI in EURO
-    var MIST = BigDecimal.ZERO; // BigDecimal
+    var MIST = new BigDecimal("0"); // BigDecimal
 
     //  Beitragssatz des Arbeitgebers zur Pflegeversicherung
-    var PVSATZAG = BigDecimal.ZERO; // BigDecimal
+    var PVSATZAG = new BigDecimal("0"); // BigDecimal
 
     //  Beitragssatz des Arbeitnehmers zur Pflegeversicherung
-    var PVSATZAN = BigDecimal.ZERO; // BigDecimal
+    var PVSATZAN = new BigDecimal("0"); // BigDecimal
 
     //  Beitragssatz des Arbeitnehmers in der allgemeinen gesetzlichen Rentenversicherung (4 Dezimalstellen)
-    var RVSATZAN = BigDecimal.ZERO; // BigDecimal
+    var RVSATZAN = new BigDecimal("0"); // BigDecimal
 
     //  Rechenwert in Gleitkommadarstellung
-    var RW = BigDecimal.ZERO; // BigDecimal
+    var RW = new BigDecimal("0"); // BigDecimal
 
     //  Sonderausgaben-Pauschbetrag in EURO
-    var SAP = BigDecimal.ZERO; // BigDecimal
+    var SAP = new BigDecimal("0"); // BigDecimal
 
     //  Freigrenze fuer den Solidaritaetszuschlag in EURO
-    var SOLZFREI = BigDecimal.ZERO; // BigDecimal
+    var SOLZFREI = new BigDecimal("0"); // BigDecimal
 
     //  Solidaritaetszuschlag auf die Jahreslohnsteuer in EURO, C (2 Dezimalstellen)
-    var SOLZJ = BigDecimal.ZERO; // BigDecimal
+    var SOLZJ = new BigDecimal("0"); // BigDecimal
 
     //  Zwischenwert fuer den Solidaritaetszuschlag auf die Jahreslohnsteuer
     //                      in EURO, C (2 Dezimalstellen)
-    var SOLZMIN = BigDecimal.ZERO; // BigDecimal
+    var SOLZMIN = new BigDecimal("0"); // BigDecimal
 
     //  Neu ab 2021: Bemessungsgrundlage des Solidaritätszuschlags zur Prüfung der Freigrenze beim Solidaritätszuschlag für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit) in Euro
-    var SOLZSBMG = BigDecimal.ZERO; // BigDecimal
+    var SOLZSBMG = new BigDecimal("0"); // BigDecimal
 
     //  Neu ab 2021: Zu versteuerndes Einkommen für die Ermittlung der Bemessungsgrundlage des Solidaritätszuschlags zur Prüfung der Freigrenze beim Solidaritätszuschlag für sonstige Bezüge (ohne Vergütung für mehrjährige Tätigkeit) in Euro, Cent (2 Dezimalstellen)
-    var SOLZSZVE = BigDecimal.ZERO; // BigDecimal
+    var SOLZSZVE = new BigDecimal("0"); // BigDecimal
 
     //  Neu ab 2021: Bemessungsgrundlage des Solidaritätszuschlags für die Prüfung der Freigrenze beim Solidaritätszuschlag für die Vergütung für mehrjährige Tätigkeit in Euro
-    var SOLZVBMG = BigDecimal.ZERO; // BigDecimal
+    var SOLZVBMG = new BigDecimal("0"); // BigDecimal
 
     //  Tarifliche Einkommensteuer in EURO
-    var ST = BigDecimal.ZERO; // BigDecimal
+    var ST = new BigDecimal("0"); // BigDecimal
 
     //  Tarifliche Einkommensteuer auf das 1,25-fache ZX in EURO
-    var ST1 = BigDecimal.ZERO; // BigDecimal
+    var ST1 = new BigDecimal("0"); // BigDecimal
 
     //  Tarifliche Einkommensteuer auf das 0,75-fache ZX in EURO
-    var ST2 = BigDecimal.ZERO; // BigDecimal
+    var ST2 = new BigDecimal("0"); // BigDecimal
 
     //  Zwischenfeld zur Ermittlung der Steuer auf Vergütungen für mehrjährige Tätigkeit
-    var STOVMT = BigDecimal.ZERO; // BigDecimal
+    var STOVMT = new BigDecimal("0"); // BigDecimal
 
     //  Teilbetragssatz der Vorsorgepauschale für die Rentenversicherung (2 Dezimalstellen)
-    var TBSVORV = BigDecimal.ZERO; // BigDecimal
+    var TBSVORV = new BigDecimal("0"); // BigDecimal
 
     //  Bemessungsgrundlage fuer den Versorgungsfreibetrag in Cents
-    var VBEZB = BigDecimal.ZERO; // BigDecimal
+    var VBEZB = new BigDecimal("0"); // BigDecimal
 
     //  Bemessungsgrundlage für den Versorgungsfreibetrag in Cent für
     //                      den sonstigen Bezug
-    var VBEZBSO = BigDecimal.ZERO; // BigDecimal
+    var VBEZBSO = new BigDecimal("0"); // BigDecimal
 
     //  Hoechstbetrag der Vorsorgepauschale nach Alterseinkuenftegesetz in EURO, C
-    var VHB = BigDecimal.ZERO; // BigDecimal
+    var VHB = new BigDecimal("0"); // BigDecimal
 
     //  Vorsorgepauschale in EURO, C (2 Dezimalstellen)
-    var VSP = BigDecimal.ZERO; // BigDecimal
+    var VSP = new BigDecimal("0"); // BigDecimal
 
     //  Vorsorgepauschale nach Alterseinkuenftegesetz in EURO, C
-    var VSPN = BigDecimal.ZERO; // BigDecimal
+    var VSPN = new BigDecimal("0"); // BigDecimal
 
     //  Zwischenwert 1 bei der Berechnung der Vorsorgepauschale nach
     //                      dem Alterseinkuenftegesetz in EURO, C (2 Dezimalstellen)
-    var VSP1 = BigDecimal.ZERO; // BigDecimal
+    var VSP1 = new BigDecimal("0"); // BigDecimal
 
     //  Zwischenwert 2 bei der Berechnung der Vorsorgepauschale nach
     //                      dem Alterseinkuenftegesetz in EURO, C (2 Dezimalstellen)
-    var VSP2 = BigDecimal.ZERO; // BigDecimal
+    var VSP2 = new BigDecimal("0"); // BigDecimal
 
     //  Vorsorgepauschale mit Teilbeträgen für die gesetzliche Kranken- und
     //                      soziale Pflegeversicherung nach fiktiven Beträgen oder ggf. für die
     //                      private Basiskrankenversicherung und private Pflege-Pflichtversicherung
     //                      in Euro, Cent (2 Dezimalstellen)
-    var VSP3 = BigDecimal.ZERO; // BigDecimal
+    var VSP3 = new BigDecimal("0"); // BigDecimal
 
     //  Erster Grenzwert in Steuerklasse V/VI in Euro
-    var W1STKL5 = BigDecimal.ZERO; // BigDecimal
+    var W1STKL5 = new BigDecimal("0"); // BigDecimal
 
     //  Zweiter Grenzwert in Steuerklasse V/VI in Euro
-    var W2STKL5 = BigDecimal.ZERO; // BigDecimal
+    var W2STKL5 = new BigDecimal("0"); // BigDecimal
 
     //  Dritter Grenzwert in Steuerklasse V/VI in Euro
-    var W3STKL5 = BigDecimal.ZERO; // BigDecimal
+    var W3STKL5 = new BigDecimal("0"); // BigDecimal
 
     //  Hoechstbetrag der Vorsorgepauschale nach § 10c Abs. 2 Nr. 2 EStG in EURO
-    var VSPMAX1 = BigDecimal.ZERO; // BigDecimal
+    var VSPMAX1 = new BigDecimal("0"); // BigDecimal
 
     //  Hoechstbetrag der Vorsorgepauschale nach § 10c Abs. 2 Nr. 3 EStG in EURO
-    var VSPMAX2 = BigDecimal.ZERO; // BigDecimal
+    var VSPMAX2 = new BigDecimal("0"); // BigDecimal
 
     //  Vorsorgepauschale nach § 10c Abs. 2 Satz 2 EStG vor der Hoechstbetragsberechnung
     //                      in EURO, C (2 Dezimalstellen)
-    var VSPO = BigDecimal.ZERO; // BigDecimal
+    var VSPO = new BigDecimal("0"); // BigDecimal
 
     //  Fuer den Abzug nach § 10c Abs. 2 Nrn. 2 und 3 EStG verbleibender
     //                      Rest von VSPO in EURO, C (2 Dezimalstellen)
-    var VSPREST = BigDecimal.ZERO; // BigDecimal
+    var VSPREST = new BigDecimal("0"); // BigDecimal
 
     //  Hoechstbetrag der Vorsorgepauschale nach § 10c Abs. 2 Nr. 1 EStG
     //                      in EURO, C (2 Dezimalstellen)
-    var VSPVOR = BigDecimal.ZERO; // BigDecimal
+    var VSPVOR = new BigDecimal("0"); // BigDecimal
 
     //  Zu versteuerndes Einkommen gem. § 32a Abs. 1 und 2 EStG €, C
     //                      (2 Dezimalstellen)
-    var X = BigDecimal.ZERO; // BigDecimal
+    var X = new BigDecimal("0"); // BigDecimal
 
     //  gem. § 32a Abs. 1 EStG (6 Dezimalstellen)
-    var Y = BigDecimal.ZERO; // BigDecimal
+    var Y = new BigDecimal("0"); // BigDecimal
 
     //  Auf einen Jahreslohn hochgerechnetes RE4 in €, C (2 Dezimalstellen)
     //                      nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4.
-    var ZRE4 = BigDecimal.ZERO; // BigDecimal
+    var ZRE4 = new BigDecimal("0"); // BigDecimal
 
     //  Auf einen Jahreslohn hochgerechnetes RE4 in €, C (2 Dezimalstellen)
-    var ZRE4J = BigDecimal.ZERO; // BigDecimal
+    var ZRE4J = new BigDecimal("0"); // BigDecimal
 
     //  Auf einen Jahreslohn hochgerechnetes RE4 in €, C (2 Dezimalstellen)
     //                      nach Abzug des Versorgungsfreibetrags und des Alterentlastungsbetrags
     //                      zur Berechnung der Vorsorgepauschale in €, Cent (2 Dezimalstellen)
-    var ZRE4VP = BigDecimal.ZERO; // BigDecimal
+    var ZRE4VP = new BigDecimal("0"); // BigDecimal
 
     //  Feste Tabellenfreibeträge (ohne Vorsorgepauschale) in €, Cent
     //                      (2 Dezimalstellen)
-    var ZTABFB = BigDecimal.ZERO; // BigDecimal
+    var ZTABFB = new BigDecimal("0"); // BigDecimal
 
     //  Auf einen Jahreslohn hochgerechnetes (VBEZ abzueglich FVB) in
     //                      EURO, C (2 Dezimalstellen)
-    var ZVBEZ = BigDecimal.ZERO; // BigDecimal
+    var ZVBEZ = new BigDecimal("0"); // BigDecimal
 
     //  Auf einen Jahreslohn hochgerechnetes VBEZ in €, C (2 Dezimalstellen)
-    var ZVBEZJ = BigDecimal.ZERO; // BigDecimal
+    var ZVBEZJ = new BigDecimal("0"); // BigDecimal
 
     //  Zu versteuerndes Einkommen in €, C (2 Dezimalstellen)
-    var ZVE = BigDecimal.ZERO; // BigDecimal
+    var ZVE = new BigDecimal("0"); // BigDecimal
 
     //  Zwischenfelder zu X fuer die Berechnung der Steuer nach § 39b
     //                      Abs. 2 Satz 7 EStG in €
-    var ZX = BigDecimal.ZERO; // BigDecimal
+    var ZX = new BigDecimal("0"); // BigDecimal
 
-    var ZZX = BigDecimal.ZERO; // BigDecimal
+    var ZZX = new BigDecimal("0"); // BigDecimal
 
-    var HOCH = BigDecimal.ZERO; // BigDecimal
+    var HOCH = new BigDecimal("0"); // BigDecimal
 
-    var VERGL = BigDecimal.ZERO; // BigDecimal
+    var VERGL = new BigDecimal("0"); // BigDecimal
 
     //  Jahreswert der berücksichtigten Beiträge zur privaten Basis-Krankenversicherung und
     //                       privaten Pflege-Pflichtversicherung (ggf. auch die Mindestvorsorgepauschale) in Cent.
-    var VKV = BigDecimal.ZERO; // BigDecimal
+    var VKV = new BigDecimal("0"); // BigDecimal
 
     //  Tabelle fuer die Vomhundertsaetze des Versorgungsfreibetrags
 
@@ -825,7 +825,7 @@ module.exports = function Lohnsteuer2022Big(args) {
     function main() {
         MPARA();
         MRE4JL();
-        VBEZBSO = BigDecimal.ZERO;
+        VBEZBSO = new BigDecimal("0");
         KENNVMT = 0;
         MRE4();
         MRE4ABZ();
@@ -889,27 +889,27 @@ module.exports = function Lohnsteuer2022Big(args) {
     //  Ermittlung des Jahresarbeitslohns nach § 39 b Abs. 2 Satz 2 EStG, PAP Seite 16
     function MRE4JL() {
         if (LZZ === 1) {
-            ZRE4J = RE4.divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-            ZVBEZJ = VBEZ.divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-            JLFREIB = LZZFREIB.divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-            JLHINZU = LZZHINZU.divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
+            ZRE4J = RE4.divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+            ZVBEZJ = VBEZ.divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+            JLFREIB = LZZFREIB.divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+            JLHINZU = LZZHINZU.divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
         } else {
             if (LZZ === 2) {
-                ZRE4J = (RE4.multiply(ZAHL12)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-                ZVBEZJ = (VBEZ.multiply(ZAHL12)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-                JLFREIB = (LZZFREIB.multiply(ZAHL12)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-                JLHINZU = (LZZHINZU.multiply(ZAHL12)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
+                ZRE4J = (RE4.multiply(ZAHL12)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+                ZVBEZJ = (VBEZ.multiply(ZAHL12)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+                JLFREIB = (LZZFREIB.multiply(ZAHL12)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+                JLHINZU = (LZZHINZU.multiply(ZAHL12)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
             } else {
                 if (LZZ === 3) {
-                    ZRE4J = (RE4.multiply(ZAHL360)).divide(ZAHL700, 2, BigDecimal.ROUND_DOWN);
-                    ZVBEZJ = (VBEZ.multiply(ZAHL360)).divide(ZAHL700, 2, BigDecimal.ROUND_DOWN);
-                    JLFREIB = (LZZFREIB.multiply(ZAHL360)).divide(ZAHL700, 2, BigDecimal.ROUND_DOWN);
-                    JLHINZU = (LZZHINZU.multiply(ZAHL360)).divide(ZAHL700, 2, BigDecimal.ROUND_DOWN);
+                    ZRE4J = (RE4.multiply(ZAHL360)).divide(ZAHL700).round(2, BigDecimal.RoundingModes.DOWN);
+                    ZVBEZJ = (VBEZ.multiply(ZAHL360)).divide(ZAHL700).round(2, BigDecimal.RoundingModes.DOWN);
+                    JLFREIB = (LZZFREIB.multiply(ZAHL360)).divide(ZAHL700).round(2, BigDecimal.RoundingModes.DOWN);
+                    JLHINZU = (LZZHINZU.multiply(ZAHL360)).divide(ZAHL700).round(2, BigDecimal.RoundingModes.DOWN);
                 } else {
-                    ZRE4J = (RE4.multiply(ZAHL360)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-                    ZVBEZJ = (VBEZ.multiply(ZAHL360)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-                    JLFREIB = (LZZFREIB.multiply(ZAHL360)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-                    JLHINZU = (LZZHINZU.multiply(ZAHL360)).divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
+                    ZRE4J = (RE4.multiply(ZAHL360)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+                    ZVBEZJ = (VBEZ.multiply(ZAHL360)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+                    JLFREIB = (LZZFREIB.multiply(ZAHL360)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+                    JLHINZU = (LZZHINZU.multiply(ZAHL360)).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
                 }
             }
         }
@@ -920,11 +920,11 @@ module.exports = function Lohnsteuer2022Big(args) {
 
     //  Freibeträge für Versorgungsbezüge, Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 17
     function MRE4() {
-        if (ZVBEZJ.compareTo(BigDecimal.ZERO) === 0) {
-            FVBZ = BigDecimal.ZERO;
-            FVB = BigDecimal.ZERO;
-            FVBZSO = BigDecimal.ZERO;
-            FVBSO = BigDecimal.ZERO;
+        if (ZVBEZJ.compareTo(new BigDecimal("0")) === 0) {
+            FVBZ = new BigDecimal("0");
+            FVB = new BigDecimal("0");
+            FVBZSO = new BigDecimal("0");
+            FVBSO = new BigDecimal("0");
         } else {
             if (VJAHR < 2006) {
                 J = 1;
@@ -938,34 +938,34 @@ module.exports = function Lohnsteuer2022Big(args) {
             if (LZZ === 1) {
                 VBEZB = (VBEZM.multiply(new BigDecimal(String(ZMVB)))).add(VBEZS);
                 HFVB = TAB2[J].divide(ZAHL12).multiply(new BigDecimal(String(ZMVB)));
-                FVBZ = TAB3[J].divide(ZAHL12).multiply(new BigDecimal(String(ZMVB))).setScale(0, BigDecimal.ROUND_UP);
+                FVBZ = TAB3[J].divide(ZAHL12).multiply(new BigDecimal(String(ZMVB))).round(0, BigDecimal.RoundingModes.UP);
             } else {
-                VBEZB = ((VBEZM.multiply(ZAHL12)).add(VBEZS)).setScale(2, BigDecimal.ROUND_DOWN);
+                VBEZB = ((VBEZM.multiply(ZAHL12)).add(VBEZS)).round(2, BigDecimal.RoundingModes.DOWN);
                 HFVB = TAB2[J];
                 FVBZ = TAB3[J];
             }
-            FVB = ((VBEZB.multiply(TAB1[J]))).divide(ZAHL100).setScale(2, BigDecimal.ROUND_UP);
+            FVB = ((VBEZB.multiply(TAB1[J]))).divide(ZAHL100).round(2, BigDecimal.RoundingModes.UP);
             if (FVB.compareTo(HFVB) === 1) {
                 FVB = HFVB;
             }
             if (FVB.compareTo(ZVBEZJ) === 1) {
                 FVB = ZVBEZJ;
             }
-            FVBSO = (FVB.add((VBEZBSO.multiply(TAB1[J])).divide(ZAHL100))).setScale(2, BigDecimal.ROUND_UP);
+            FVBSO = (FVB.add((VBEZBSO.multiply(TAB1[J])).divide(ZAHL100))).round(2, BigDecimal.RoundingModes.UP);
             if (FVBSO.compareTo(TAB2[J]) === 1) {
                 FVBSO = TAB2[J];
             }
-            HFVBZSO = (((VBEZB.add(VBEZBSO)).divide(ZAHL100)).subtract(FVBSO)).setScale(2, BigDecimal.ROUND_DOWN);
-            FVBZSO = (FVBZ.add((VBEZBSO).divide(ZAHL100))).setScale(0, BigDecimal.ROUND_UP);
+            HFVBZSO = (((VBEZB.add(VBEZBSO)).divide(ZAHL100)).subtract(FVBSO)).round(2, BigDecimal.RoundingModes.DOWN);
+            FVBZSO = (FVBZ.add((VBEZBSO).divide(ZAHL100))).round(0, BigDecimal.RoundingModes.UP);
             if (FVBZSO.compareTo(HFVBZSO) === 1) {
-                FVBZSO = HFVBZSO.setScale(0, BigDecimal.ROUND_UP);
+                FVBZSO = HFVBZSO.round(0, BigDecimal.RoundingModes.UP);
             }
             if (FVBZSO.compareTo(TAB3[J]) === 1) {
                 FVBZSO = TAB3[J];
             }
-            HFVBZ = ((VBEZB.divide(ZAHL100)).subtract(FVB)).setScale(2, BigDecimal.ROUND_DOWN);
+            HFVBZ = ((VBEZB.divide(ZAHL100)).subtract(FVB)).round(2, BigDecimal.RoundingModes.DOWN);
             if (FVBZ.compareTo(HFVBZ) === 1) {
-                FVBZ = HFVBZ.setScale(0, BigDecimal.ROUND_UP);
+                FVBZ = HFVBZ.round(0, BigDecimal.RoundingModes.UP);
             }
         }
         MRE4ALTE();
@@ -974,7 +974,7 @@ module.exports = function Lohnsteuer2022Big(args) {
     //  Altersentlastungsbetrag (§ 39b Abs. 2 Satz 3 EStG), PAP Seite 18
     function MRE4ALTE() {
         if (ALTER1 === 0) {
-            ALTE = BigDecimal.ZERO;
+            ALTE = new BigDecimal("0");
         } else {
             if (AJAHR < 2006) {
                 K = 1;
@@ -987,7 +987,7 @@ module.exports = function Lohnsteuer2022Big(args) {
             }
             BMG = ZRE4J.subtract(ZVBEZJ);
             //  Lt. PAP muss hier auf ganze EUR gerundet werden
-            ALTE = (BMG.multiply(TAB4[K])).setScale(0, BigDecimal.ROUND_UP);
+            ALTE = (BMG.multiply(TAB4[K])).round(0, BigDecimal.RoundingModes.UP);
             HBALTE = TAB5[K];
             if (ALTE.compareTo(HBALTE) === 1) {
                 ALTE = HBALTE;
@@ -997,39 +997,39 @@ module.exports = function Lohnsteuer2022Big(args) {
 
     //  Ermittlung des Jahresarbeitslohns nach Abzug der Freibeträge nach § 39 b Abs. 2 Satz 3 und 4 EStG, PAP Seite 20
     function MRE4ABZ() {
-        ZRE4 = (ZRE4J.subtract(FVB).subtract(ALTE).subtract(JLFREIB).add(JLHINZU)).setScale(2, BigDecimal.ROUND_DOWN);
-        if (ZRE4.compareTo(BigDecimal.ZERO) === -1) {
-            ZRE4 = BigDecimal.ZERO;
+        ZRE4 = (ZRE4J.subtract(FVB).subtract(ALTE).subtract(JLFREIB).add(JLHINZU)).round(2, BigDecimal.RoundingModes.DOWN);
+        if (ZRE4.compareTo(new BigDecimal("0")) === -1) {
+            ZRE4 = new BigDecimal("0");
         }
         ZRE4VP = ZRE4J;
         if (KENNVMT === 2) {
-            ZRE4VP = ZRE4VP.subtract(ENTSCH.divide(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
+            ZRE4VP = ZRE4VP.subtract(ENTSCH.divide(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
         }
-        ZVBEZ = ZVBEZJ.subtract(FVB).setScale(2, BigDecimal.ROUND_DOWN);
-        if (ZVBEZ.compareTo(BigDecimal.ZERO) === -1) {
-            ZVBEZ = BigDecimal.ZERO;
+        ZVBEZ = ZVBEZJ.subtract(FVB).round(2, BigDecimal.RoundingModes.DOWN);
+        if (ZVBEZ.compareTo(new BigDecimal("0")) === -1) {
+            ZVBEZ = new BigDecimal("0");
         }
     }
 
     //  Berechnung fuer laufende Lohnzahlungszeitraueme Seite 21
     function MBERECH() {
         MZTABFB();
-        VFRB = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).setScale(0, BigDecimal.ROUND_DOWN);
+        VFRB = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).round(0, BigDecimal.RoundingModes.DOWN);
         MLSTJAHR();
-        WVFRB = ((ZVE.subtract(GFB)).multiply(ZAHL100)).setScale(0, BigDecimal.ROUND_DOWN);
-        if (WVFRB.compareTo(BigDecimal.ZERO) === -1)         //  WVFRB < 0
+        WVFRB = ((ZVE.subtract(GFB)).multiply(ZAHL100)).round(0, BigDecimal.RoundingModes.DOWN);
+        if (WVFRB.compareTo(new BigDecimal("0")) === -1)         //  WVFRB < 0
 {
-            WVFRB = BigDecimal.ZERO;
+            WVFRB = new BigDecimal("0");
         }
-        LSTJAHR = (ST.multiply(new BigDecimal(String(f)))).setScale(0, BigDecimal.ROUND_DOWN);
+        LSTJAHR = (ST.multiply(new BigDecimal(String(f)))).round(0, BigDecimal.RoundingModes.DOWN);
         UPLSTLZZ();
         UPVKVLZZ();
-        if (ZKF.compareTo(BigDecimal.ZERO) === 1)         //  ZKF > 0
+        if (ZKF.compareTo(new BigDecimal("0")) === 1)         //  ZKF > 0
 {
             ZTABFB = ZTABFB.add(KFB);
             MRE4ABZ();
             MLSTJAHR();
-            JBMG = (ST.multiply(new BigDecimal(String(f)))).setScale(0, BigDecimal.ROUND_DOWN);
+            JBMG = (ST.multiply(new BigDecimal(String(f)))).round(0, BigDecimal.RoundingModes.DOWN);
         } else {
             JBMG = LSTJAHR;
         }
@@ -1038,26 +1038,26 @@ module.exports = function Lohnsteuer2022Big(args) {
 
     //  Ermittlung der festen Tabellenfreibeträge (ohne Vorsorgepauschale), PAP Seite 22
     function MZTABFB() {
-        ANP = BigDecimal.ZERO;
-        if (ZVBEZ.compareTo(BigDecimal.ZERO) >= 0 && ZVBEZ.compareTo(FVBZ) === -1) {
-            FVBZ = new BigDecimal(String(ZVBEZ.longValue()));
+        ANP = new BigDecimal("0");
+        if (ZVBEZ.compareTo(new BigDecimal("0")) >= 0 && ZVBEZ.compareTo(FVBZ) === -1) {
+            FVBZ = new BigDecimal(String(ZVBEZ.floor()));
         }
         if (STKL < 6) {
-            if (ZVBEZ.compareTo(BigDecimal.ZERO) === 1) {
+            if (ZVBEZ.compareTo(new BigDecimal("0")) === 1) {
                 if ((ZVBEZ.subtract(FVBZ)).compareTo(new BigDecimal("102")) === -1) {
-                    ANP = (ZVBEZ.subtract(FVBZ)).setScale(0, BigDecimal.ROUND_UP);
+                    ANP = (ZVBEZ.subtract(FVBZ)).round(0, BigDecimal.RoundingModes.UP);
                 } else {
                     ANP = new BigDecimal("102");
                 }
             }
         } else {
-            FVBZ = BigDecimal.ZERO;
-            FVBZSO = BigDecimal.ZERO;
+            FVBZ = new BigDecimal("0");
+            FVBZSO = new BigDecimal("0");
         }
         if (STKL < 6) {
             if (ZRE4.compareTo(ZVBEZ) === 1) {
                 if (ZRE4.subtract(ZVBEZ).compareTo(ZAHL1000) === -1) {
-                    ANP = ANP.add(ZRE4).subtract(ZVBEZ).setScale(0, BigDecimal.ROUND_UP);
+                    ANP = ANP.add(ZRE4).subtract(ZVBEZ).round(0, BigDecimal.RoundingModes.UP);
                 } else {
                     ANP = ANP.add(ZAHL1000);
                 }
@@ -1066,58 +1066,58 @@ module.exports = function Lohnsteuer2022Big(args) {
         KZTAB = 1;
         if (STKL === 1) {
             SAP = new BigDecimal("36");
-            KFB = (ZKF.multiply(new BigDecimal("8388"))).setScale(0, BigDecimal.ROUND_DOWN);
+            KFB = (ZKF.multiply(new BigDecimal("8388"))).round(0, BigDecimal.RoundingModes.DOWN);
             //  Geändert für 2021
         } else {
             if (STKL === 2) {
                 EFA = new BigDecimal("4008");
                 //  mod f 2022
                 SAP = new BigDecimal("36");
-                KFB = (ZKF.multiply(new BigDecimal("8388"))).setScale(0, BigDecimal.ROUND_DOWN);
+                KFB = (ZKF.multiply(new BigDecimal("8388"))).round(0, BigDecimal.RoundingModes.DOWN);
                 //  Geändert für 2021
             } else {
                 if (STKL === 3) {
                     KZTAB = 2;
                     SAP = new BigDecimal("36");
-                    KFB = (ZKF.multiply(new BigDecimal("8388"))).setScale(0, BigDecimal.ROUND_DOWN);
+                    KFB = (ZKF.multiply(new BigDecimal("8388"))).round(0, BigDecimal.RoundingModes.DOWN);
                     //  Geändert für 2021
                 } else {
                     if (STKL === 4) {
                         SAP = new BigDecimal("36");
-                        KFB = (ZKF.multiply(new BigDecimal("4194"))).setScale(0, BigDecimal.ROUND_DOWN);
+                        KFB = (ZKF.multiply(new BigDecimal("4194"))).round(0, BigDecimal.RoundingModes.DOWN);
                         //  Geändert für 2021
                     } else {
                         if (STKL === 5) {
                             SAP = new BigDecimal("36");
-                            KFB = BigDecimal.ZERO;
+                            KFB = new BigDecimal("0");
                         } else {
-                            KFB = BigDecimal.ZERO;
+                            KFB = new BigDecimal("0");
                         }
                     }
                 }
             }
         }
-        ZTABFB = (EFA.add(ANP).add(SAP).add(FVBZ)).setScale(2, BigDecimal.ROUND_DOWN);
+        ZTABFB = (EFA.add(ANP).add(SAP).add(FVBZ)).round(2, BigDecimal.RoundingModes.DOWN);
     }
 
     //  Ermittlung Jahreslohnsteuer, PAP Seite 23
     function MLSTJAHR() {
         UPEVP();
         if (KENNVMT !== 1) {
-            ZVE = (ZRE4.subtract(ZTABFB).subtract(VSP)).setScale(2, BigDecimal.ROUND_DOWN);
+            ZVE = (ZRE4.subtract(ZTABFB).subtract(VSP)).round(2, BigDecimal.RoundingModes.DOWN);
             UPMLST();
         } else {
-            ZVE = (ZRE4.subtract(ZTABFB).subtract(VSP).subtract((VMT).divide(ZAHL100)).subtract((VKAPA).divide(ZAHL100))).setScale(2, BigDecimal.ROUND_DOWN);
-            if (ZVE.compareTo(BigDecimal.ZERO) === -1) {
-                ZVE = ZVE.add(VMT.divide(ZAHL100)).add(VKAPA.divide(ZAHL100)).divide(ZAHL5).setScale(2, BigDecimal.ROUND_DOWN);
+            ZVE = (ZRE4.subtract(ZTABFB).subtract(VSP).subtract((VMT).divide(ZAHL100)).subtract((VKAPA).divide(ZAHL100))).round(2, BigDecimal.RoundingModes.DOWN);
+            if (ZVE.compareTo(new BigDecimal("0")) === -1) {
+                ZVE = ZVE.add(VMT.divide(ZAHL100)).add(VKAPA.divide(ZAHL100)).divide(ZAHL5).round(2, BigDecimal.RoundingModes.DOWN);
                 UPMLST();
-                ST = (ST.multiply(ZAHL5)).setScale(0, BigDecimal.ROUND_DOWN);
+                ST = (ST.multiply(ZAHL5)).round(0, BigDecimal.RoundingModes.DOWN);
             } else {
                 UPMLST();
                 STOVMT = ST;
-                ZVE = (ZVE.add(((VMT.add(VKAPA)).divide(ZAHL500)))).setScale(2, BigDecimal.ROUND_DOWN);
+                ZVE = (ZVE.add(((VMT.add(VKAPA)).divide(ZAHL500)))).round(2, BigDecimal.RoundingModes.DOWN);
                 UPMLST();
-                ST = (((ST.subtract(STOVMT)).multiply(ZAHL5)).add(STOVMT)).setScale(0, BigDecimal.ROUND_DOWN);
+                ST = (((ST.subtract(STOVMT)).multiply(ZAHL5)).add(STOVMT)).round(0, BigDecimal.RoundingModes.DOWN);
             }
         }
     }
@@ -1139,7 +1139,7 @@ module.exports = function Lohnsteuer2022Big(args) {
                 VKV = VSP3.multiply(ZAHL100);
             }
         } else {
-            VKV = BigDecimal.ZERO;
+            VKV = new BigDecimal("0");
         }
     }
 
@@ -1153,10 +1153,10 @@ module.exports = function Lohnsteuer2022Big(args) {
     //  Ermittlung der Jahreslohnsteuer aus dem Einkommensteuertarif. PAP Seite 26
     function UPMLST() {
         if (ZVE.compareTo(ZAHL1) === -1) {
-            ZVE = BigDecimal.ZERO;
-            X = BigDecimal.ZERO;
+            ZVE = new BigDecimal("0");
+            X = new BigDecimal("0");
         } else {
-            X = (ZVE.divide(new BigDecimal(String(KZTAB)))).setScale(0, BigDecimal.ROUND_DOWN);
+            X = (ZVE.divide(new BigDecimal(String(KZTAB)))).round(0, BigDecimal.RoundingModes.DOWN);
         }
         if (STKL < 5) {
             //  Änderung für 2022
@@ -1170,15 +1170,15 @@ module.exports = function Lohnsteuer2022Big(args) {
     function UPEVP() {
         if (KRV > 1)         //  &lt; = < &gt; = >
 {
-            VSP1 = BigDecimal.ZERO;
+            VSP1 = new BigDecimal("0");
         } else {
             if (ZRE4VP.compareTo(BBGRV) === 1) {
                 ZRE4VP = BBGRV;
             }
-            VSP1 = (TBSVORV.multiply(ZRE4VP)).setScale(2, BigDecimal.ROUND_DOWN);
-            VSP1 = (VSP1.multiply(RVSATZAN)).setScale(2, BigDecimal.ROUND_DOWN);
+            VSP1 = (TBSVORV.multiply(ZRE4VP)).round(2, BigDecimal.RoundingModes.DOWN);
+            VSP1 = (VSP1.multiply(RVSATZAN)).round(2, BigDecimal.RoundingModes.DOWN);
         }
-        VSP2 = (ZRE4VP.multiply(new BigDecimal("0.12"))).setScale(2, BigDecimal.ROUND_DOWN);
+        VSP2 = (ZRE4VP.multiply(new BigDecimal("0.12"))).round(2, BigDecimal.RoundingModes.DOWN);
         if (STKL === 3) {
             VHB = new BigDecimal("3000");
         } else {
@@ -1187,10 +1187,10 @@ module.exports = function Lohnsteuer2022Big(args) {
         if (VSP2.compareTo(VHB) === 1) {
             VSP2 = VHB;
         }
-        VSPN = (VSP1.add(VSP2)).setScale(0, BigDecimal.ROUND_UP);
+        VSPN = (VSP1.add(VSP2)).round(0, BigDecimal.RoundingModes.UP);
         MVSP();
         if (VSPN.compareTo(VSP) === 1) {
-            VSP = VSPN.setScale(2, BigDecimal.ROUND_DOWN);
+            VSP = VSPN.round(2, BigDecimal.RoundingModes.DOWN);
         }
     }
 
@@ -1201,17 +1201,17 @@ module.exports = function Lohnsteuer2022Big(args) {
         }
         if (PKV > 0) {
             if (STKL === 6) {
-                VSP3 = BigDecimal.ZERO;
+                VSP3 = new BigDecimal("0");
             } else {
                 VSP3 = PKPV.multiply(ZAHL12).divide(ZAHL100);
                 if (PKV === 2) {
-                    VSP3 = VSP3.subtract(ZRE4VP.multiply(KVSATZAG.add(PVSATZAG))).setScale(2, BigDecimal.ROUND_DOWN);
+                    VSP3 = VSP3.subtract(ZRE4VP.multiply(KVSATZAG.add(PVSATZAG))).round(2, BigDecimal.RoundingModes.DOWN);
                 }
             }
         } else {
-            VSP3 = ZRE4VP.multiply(KVSATZAN.add(PVSATZAN)).setScale(2, BigDecimal.ROUND_DOWN);
+            VSP3 = ZRE4VP.multiply(KVSATZAN.add(PVSATZAN)).round(2, BigDecimal.RoundingModes.DOWN);
         }
-        VSP = VSP3.add(VSP1).setScale(0, BigDecimal.ROUND_UP);
+        VSP = VSP3.add(VSP1).round(0, BigDecimal.RoundingModes.UP);
     }
 
     //  Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 29
@@ -1221,10 +1221,10 @@ module.exports = function Lohnsteuer2022Big(args) {
             ZX = W2STKL5;
             UP5_6();
             if (ZZX.compareTo(W3STKL5) === 1) {
-                ST = (ST.add((W3STKL5.subtract(W2STKL5)).multiply(new BigDecimal("0.42")))).setScale(0, BigDecimal.ROUND_DOWN);
-                ST = (ST.add((ZZX.subtract(W3STKL5)).multiply(new BigDecimal("0.45")))).setScale(0, BigDecimal.ROUND_DOWN);
+                ST = (ST.add((W3STKL5.subtract(W2STKL5)).multiply(new BigDecimal("0.42")))).round(0, BigDecimal.RoundingModes.DOWN);
+                ST = (ST.add((ZZX.subtract(W3STKL5)).multiply(new BigDecimal("0.45")))).round(0, BigDecimal.RoundingModes.DOWN);
             } else {
-                ST = (ST.add((ZZX.subtract(W2STKL5)).multiply(new BigDecimal("0.42")))).setScale(0, BigDecimal.ROUND_DOWN);
+                ST = (ST.add((ZZX.subtract(W2STKL5)).multiply(new BigDecimal("0.42")))).round(0, BigDecimal.RoundingModes.DOWN);
             }
         } else {
             ZX = ZZX;
@@ -1233,7 +1233,7 @@ module.exports = function Lohnsteuer2022Big(args) {
                 VERGL = ST;
                 ZX = W1STKL5;
                 UP5_6();
-                HOCH = (ST.add((ZZX.subtract(W1STKL5)).multiply(new BigDecimal("0.42")))).setScale(0, BigDecimal.ROUND_DOWN);
+                HOCH = (ST.add((ZZX.subtract(W1STKL5)).multiply(new BigDecimal("0.42")))).round(0, BigDecimal.RoundingModes.DOWN);
                 //  Neuer Wert 2014
                 if (HOCH.compareTo(VERGL) === -1) {
                     ST = HOCH;
@@ -1246,16 +1246,16 @@ module.exports = function Lohnsteuer2022Big(args) {
 
     //  Unterprogramm zur Lohnsteuer fuer die Steuerklassen V und VI (§ 39b Abs. 2 Satz 7 EStG), PAP Seite 30
     function UP5_6() {
-        X = (ZX.multiply(new BigDecimal("1.25"))).setScale(2, BigDecimal.ROUND_DOWN);
+        X = (ZX.multiply(new BigDecimal("1.25"))).round(2, BigDecimal.RoundingModes.DOWN);
         //  Änderung für 2022
         UPTAB22();
         ST1 = ST;
-        X = (ZX.multiply(new BigDecimal("0.75"))).setScale(2, BigDecimal.ROUND_DOWN);
+        X = (ZX.multiply(new BigDecimal("0.75"))).round(2, BigDecimal.RoundingModes.DOWN);
         //  Änderung für 2022
         UPTAB22();
         ST2 = ST;
         DIFF = (ST1.subtract(ST2)).multiply(ZAHL2);
-        MIST = (ZX.multiply(new BigDecimal("0.14"))).setScale(0, BigDecimal.ROUND_DOWN);
+        MIST = (ZX.multiply(new BigDecimal("0.14"))).round(0, BigDecimal.RoundingModes.DOWN);
         if (MIST.compareTo(DIFF) === 1) {
             ST = MIST;
         } else {
@@ -1267,24 +1267,24 @@ module.exports = function Lohnsteuer2022Big(args) {
     function MSOLZ() {
         SOLZFREI = (SOLZFREI.multiply(new BigDecimal(String(KZTAB))));
         if (JBMG.compareTo(SOLZFREI) === 1) {
-            SOLZJ = (JBMG.multiply(new BigDecimal("5.5"))).divide(ZAHL100).setScale(2, BigDecimal.ROUND_DOWN);
-            SOLZMIN = (JBMG.subtract(SOLZFREI)).multiply(new BigDecimal("11.9")).divide(ZAHL100).setScale(2, BigDecimal.ROUND_DOWN);
+            SOLZJ = (JBMG.multiply(new BigDecimal("5.5"))).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+            SOLZMIN = (JBMG.subtract(SOLZFREI)).multiply(new BigDecimal("11.9")).divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
             //  Änderung für 2021
             if (SOLZMIN.compareTo(SOLZJ) === -1) {
                 SOLZJ = SOLZMIN;
             }
-            JW = SOLZJ.multiply(ZAHL100).setScale(0, BigDecimal.ROUND_DOWN);
+            JW = SOLZJ.multiply(ZAHL100).round(0, BigDecimal.RoundingModes.DOWN);
             UPANTEIL();
             SOLZLZZ = ANTEIL1;
         } else {
-            SOLZLZZ = BigDecimal.ZERO;
+            SOLZLZZ = new BigDecimal("0");
         }
         if (R > 0) {
             JW = JBMG.multiply(ZAHL100);
             UPANTEIL();
             BK = ANTEIL1;
         } else {
-            BK = BigDecimal.ZERO;
+            BK = new BigDecimal("0");
         }
     }
 
@@ -1294,12 +1294,12 @@ module.exports = function Lohnsteuer2022Big(args) {
             ANTEIL1 = JW;
         } else {
             if (LZZ === 2) {
-                ANTEIL1 = JW.divide(ZAHL12, 0, BigDecimal.ROUND_DOWN);
+                ANTEIL1 = JW.divide(ZAHL12).round(0, BigDecimal.RoundingModes.DOWN);
             } else {
                 if (LZZ === 3) {
-                    ANTEIL1 = (JW.multiply(ZAHL7)).divide(ZAHL360, 0, BigDecimal.ROUND_DOWN);
+                    ANTEIL1 = (JW.multiply(ZAHL7)).divide(ZAHL360).round(0, BigDecimal.RoundingModes.DOWN);
                 } else {
-                    ANTEIL1 = JW.divide(ZAHL360, 0, BigDecimal.ROUND_DOWN);
+                    ANTEIL1 = JW.divide(ZAHL360).round(0, BigDecimal.RoundingModes.DOWN);
                 }
             }
         }
@@ -1311,26 +1311,26 @@ module.exports = function Lohnsteuer2022Big(args) {
         if (ZMVB === 0) {
             ZMVB = 12;
         }
-        if (SONSTB.compareTo(BigDecimal.ZERO) === 0 && MBV.compareTo(BigDecimal.ZERO) === 0)         //  neu für 2022
+        if (SONSTB.compareTo(new BigDecimal("0")) === 0 && MBV.compareTo(new BigDecimal("0")) === 0)         //  neu für 2022
 {
-            VKVSONST = BigDecimal.ZERO;
-            LSTSO = BigDecimal.ZERO;
-            STS = BigDecimal.ZERO;
-            SOLZS = BigDecimal.ZERO;
-            BKS = BigDecimal.ZERO;
+            VKVSONST = new BigDecimal("0");
+            LSTSO = new BigDecimal("0");
+            STS = new BigDecimal("0");
+            SOLZS = new BigDecimal("0");
+            BKS = new BigDecimal("0");
         } else {
             MOSONST();
             UPVKV();
             VKVSONST = VKV;
-            ZRE4J = ((JRE4.add(SONSTB)).divide(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
-            ZVBEZJ = ((JVBEZ.add(VBS)).divide(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
+            ZRE4J = ((JRE4.add(SONSTB)).divide(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
+            ZVBEZJ = ((JVBEZ.add(VBS)).divide(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
             VBEZBSO = STERBE;
             MRE4SONST();
             MLSTJAHR();
-            WVFRBM = (ZVE.subtract(GFB)).multiply(ZAHL100).setScale(2, BigDecimal.ROUND_DOWN);
-            if (WVFRBM.compareTo(BigDecimal.ZERO) === -1)             //  WVFRBM < 0
+            WVFRBM = (ZVE.subtract(GFB)).multiply(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+            if (WVFRBM.compareTo(new BigDecimal("0")) === -1)             //  WVFRBM < 0
 {
-                WVFRBM = BigDecimal.ZERO;
+                WVFRBM = new BigDecimal("0");
             }
             UPVKV();
             VKVSONST = VKV.subtract(VKVSONST);
@@ -1338,7 +1338,7 @@ module.exports = function Lohnsteuer2022Big(args) {
             //  lt. PAP:  "Hinweis: negative Zahlen werden nach ihrem Betrag gerundet!"
             //  Fallunterscheidung bzgl. negativer Zahlen nicht nötig, da die Java-Klasse BigDecimal.ROUND_DOWN
             //  die Ziffer und nicht die Zahl abrundet, also aus -4.5 wird -4 und aus 4.5 wird 4
-            STS = LSTSO.subtract(LSTOSO).multiply(new BigDecimal(String(f))).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).multiply(ZAHL100);
+            STS = LSTSO.subtract(LSTOSO).multiply(new BigDecimal(String(f))).divide(ZAHL100).round(0, BigDecimal.RoundingModes.DOWN).multiply(ZAHL100);
             //  Neu für 2022
             STSMIN();
         }
@@ -1346,52 +1346,52 @@ module.exports = function Lohnsteuer2022Big(args) {
 
     //  Neu für 2022
     function STSMIN() {
-        if (STS.compareTo(BigDecimal.ZERO) === -1)         //  STS < 0
+        if (STS.compareTo(new BigDecimal("0")) === -1)         //  STS < 0
 {
-            if (MBV.compareTo(BigDecimal.ZERO) === 0)             //   MBV = 0
+            if (MBV.compareTo(new BigDecimal("0")) === 0)             //   MBV = 0
 {
                 //  absichtlich leer
             } else {
                 LSTLZZ = LSTLZZ.add(STS);
-                if (LSTLZZ.compareTo(BigDecimal.ZERO) === -1)                 //   LSTLZZ < 0
+                if (LSTLZZ.compareTo(new BigDecimal("0")) === -1)                 //   LSTLZZ < 0
 {
-                    LSTLZZ = BigDecimal.ZERO;
+                    LSTLZZ = new BigDecimal("0");
                 }
-                SOLZLZZ = SOLZLZZ.add(STS.multiply(new BigDecimal("5.5").divide(ZAHL100))).setScale(0, BigDecimal.ROUND_DOWN);
-                if (SOLZLZZ.compareTo(BigDecimal.ZERO) === -1)                 //   SOLZLZZ < 0
+                SOLZLZZ = SOLZLZZ.add(STS.multiply(new BigDecimal("5.5").divide(ZAHL100))).round(0, BigDecimal.RoundingModes.DOWN);
+                if (SOLZLZZ.compareTo(new BigDecimal("0")) === -1)                 //   SOLZLZZ < 0
 {
-                    SOLZLZZ = BigDecimal.ZERO;
+                    SOLZLZZ = new BigDecimal("0");
                 }
                 BK = BK.add(STS);
-                if (BK.compareTo(BigDecimal.ZERO) === -1)                 //   BK < 0
+                if (BK.compareTo(new BigDecimal("0")) === -1)                 //   BK < 0
 {
-                    BK = BigDecimal.ZERO;
+                    BK = new BigDecimal("0");
                 }
             }
-            STS = BigDecimal.ZERO;
-            SOLZS = BigDecimal.ZERO;
+            STS = new BigDecimal("0");
+            SOLZS = new BigDecimal("0");
         } else {
             MSOLZSTS();
         }
         if (R > 0) {
             BKS = STS;
         } else {
-            BKS = BigDecimal.ZERO;
+            BKS = new BigDecimal("0");
         }
     }
 
     //  Berechnung des SolZ auf sonstige Bezüge, PAP Seite 34, Neu ab 2021
     function MSOLZSTS() {
-        if (ZKF.compareTo(BigDecimal.ZERO) === 1)         //  ZKF > 0
+        if (ZKF.compareTo(new BigDecimal("0")) === 1)         //  ZKF > 0
 {
             SOLZSZVE = ZVE.subtract(KFB);
         } else {
             SOLZSZVE = ZVE;
         }
-        if (SOLZSZVE.compareTo(BigDecimal.ONE) === -1)         //  SOLZSZVE < 1
+        if (SOLZSZVE.compareTo(new BigDecimal("1")) === -1)         //  SOLZSZVE < 1
 {
-            SOLZSZVE = BigDecimal.ZERO;
-            X = BigDecimal.ZERO;
+            SOLZSZVE = new BigDecimal("0");
+            X = new BigDecimal("0");
         } else {
             X = SOLZSZVE.divide(new BigDecimal(String(KZTAB)), 0, BigDecimal.ROUND_DOWN);
         }
@@ -1402,30 +1402,30 @@ module.exports = function Lohnsteuer2022Big(args) {
         } else {
             MST5_6();
         }
-        SOLZSBMG = ST.multiply(new BigDecimal(String(f))).setScale(0, BigDecimal.ROUND_DOWN);
+        SOLZSBMG = ST.multiply(new BigDecimal(String(f))).round(0, BigDecimal.RoundingModes.DOWN);
         if (SOLZSBMG.compareTo(SOLZFREI) === 1)         //  SOLZSBMG > SOLZFREI
 {
-            SOLZS = STS.multiply(new BigDecimal("5.5")).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN);
+            SOLZS = STS.multiply(new BigDecimal("5.5")).divide(ZAHL100).round(0, BigDecimal.RoundingModes.DOWN);
         } else {
-            SOLZS = BigDecimal.ZERO;
+            SOLZS = new BigDecimal("0");
         }
     }
 
     //  Berechnung der Verguetung fuer mehrjaehrige Taetigkeit nach § 39b Abs. 3 Satz 9 und 10 EStG), PAP Seite 35
     function MVMT() {
-        if (VKAPA.compareTo(BigDecimal.ZERO) === -1) {
-            VKAPA = BigDecimal.ZERO;
+        if (VKAPA.compareTo(new BigDecimal("0")) === -1) {
+            VKAPA = new BigDecimal("0");
         }
-        if ((VMT.add(VKAPA)).compareTo(BigDecimal.ZERO) === 1) {
-            if (LSTSO.compareTo(BigDecimal.ZERO) === 0) {
+        if ((VMT.add(VKAPA)).compareTo(new BigDecimal("0")) === 1) {
+            if (LSTSO.compareTo(new BigDecimal("0")) === 0) {
                 MOSONST();
                 LST1 = LSTOSO;
             } else {
                 LST1 = LSTSO;
             }
             VBEZBSO = STERBE.add(VKAPA);
-            ZRE4J = ((JRE4.add(SONSTB).add(VMT).add(VKAPA)).divide(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
-            ZVBEZJ = ((JVBEZ.add(VBS).add(VKAPA)).divide(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
+            ZRE4J = ((JRE4.add(SONSTB).add(VMT).add(VKAPA)).divide(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
+            ZVBEZJ = ((JVBEZ.add(VBS).add(VKAPA)).divide(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
             KENNVMT = 2;
             MRE4SONST();
             MLSTJAHR();
@@ -1440,8 +1440,8 @@ module.exports = function Lohnsteuer2022Big(args) {
             if (LST3.compareTo(STV) === -1) {
                 STV = LST3;
             }
-            if (STV.compareTo(BigDecimal.ZERO) === -1) {
-                STV = BigDecimal.ZERO;
+            if (STV.compareTo(new BigDecimal("0")) === -1) {
+                STV = new BigDecimal("0");
             } else {
                 //
                 //                     lt. PAP muss hier auf ganze EUR abgerundet werden.
@@ -1449,44 +1449,44 @@ module.exports = function Lohnsteuer2022Big(args) {
                 //                     weshalb nach dem Aufrunden auf ganze EUR durch 'divide(ZAHL100, 0, BigDecimal.ROUND_DOWN)'
                 //                     wieder die Multiplikation mit 100 erfolgt.
                 //
-                STV = STV.multiply(new BigDecimal(String(f))).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).multiply(ZAHL100);
+                STV = STV.multiply(new BigDecimal(String(f))).divide(ZAHL100).round(0, BigDecimal.RoundingModes.DOWN).multiply(ZAHL100);
             }
             //  Beginn Neu 2021
-            SOLZVBMG = STV.divide(ZAHL100, 0, BigDecimal.ROUND_DOWN).add(JBMG);
+            SOLZVBMG = STV.divide(ZAHL100).round(0, BigDecimal.RoundingModes.DOWN).add(JBMG);
             if (SOLZVBMG.compareTo(SOLZFREI) === 1)             //  SOLZVBMG > SOLZFREI
 {
-                SOLZV = STV.multiply(new BigDecimal("5.5")).divide(ZAHL100, 0, BigDecimal.ROUND_DOWN);
+                SOLZV = STV.multiply(new BigDecimal("5.5")).divide(ZAHL100).round(0, BigDecimal.RoundingModes.DOWN);
             } else {
-                SOLZV = BigDecimal.ZERO;
+                SOLZV = new BigDecimal("0");
             }
             //  Ende Neu 2021
             if (R > 0) {
                 BKV = STV;
             } else {
-                BKV = BigDecimal.ZERO;
+                BKV = new BigDecimal("0");
             }
         } else {
-            STV = BigDecimal.ZERO;
-            SOLZV = BigDecimal.ZERO;
-            BKV = BigDecimal.ZERO;
+            STV = new BigDecimal("0");
+            SOLZV = new BigDecimal("0");
+            BKV = new BigDecimal("0");
         }
     }
 
     //  Sonderberechnung ohne sonstige Bezüge für Berechnung bei sonstigen Bezügen oder Vergütung für mehrjährige Tätigkeit, PAP Seite 36
     function MOSONST() {
-        ZRE4J = (JRE4.divide(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
-        ZVBEZJ = (JVBEZ.divide(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
-        JLFREIB = JFREIB.divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
-        JLHINZU = JHINZU.divide(ZAHL100, 2, BigDecimal.ROUND_DOWN);
+        ZRE4J = (JRE4.divide(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
+        ZVBEZJ = (JVBEZ.divide(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
+        JLFREIB = JFREIB.divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
+        JLHINZU = JHINZU.divide(ZAHL100).round(2, BigDecimal.RoundingModes.DOWN);
         MRE4();
         MRE4ABZ();
         ZRE4VP = ZRE4VP.subtract(JRE4ENT.divide(ZAHL100));
         MZTABFB();
-        VFRBS1 = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
+        VFRBS1 = ((ANP.add(FVB.add(FVBZ))).multiply(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
         MLSTJAHR();
-        WVFRBO = ((ZVE.subtract(GFB)).multiply(ZAHL100)).setScale(2, BigDecimal.ROUND_DOWN);
-        if (WVFRBO.compareTo(BigDecimal.ZERO) === -1) {
-            WVFRBO = BigDecimal.ZERO;
+        WVFRBO = ((ZVE.subtract(GFB)).multiply(ZAHL100)).round(2, BigDecimal.RoundingModes.DOWN);
+        if (WVFRBO.compareTo(new BigDecimal("0")) === -1) {
+            WVFRBO = new BigDecimal("0");
         }
         LSTOSO = ST.multiply(ZAHL100);
     }
@@ -1508,33 +1508,33 @@ module.exports = function Lohnsteuer2022Big(args) {
     function UPTAB22() {
         //  Änderung für 2022
         if (X.compareTo(GFB.add(ZAHL1)) === -1) {
-            ST = BigDecimal.ZERO;
+            ST = new BigDecimal("0");
         } else {
             if (X.compareTo(new BigDecimal("14927")) === -1)             //  Geändert für 2022
 {
-                Y = (X.subtract(GFB)).divide(ZAHL10000, 6, BigDecimal.ROUND_DOWN);
+                Y = (X.subtract(GFB)).divide(ZAHL10000).round(6, BigDecimal.RoundingModes.DOWN);
                 RW = Y.multiply(new BigDecimal("1008.7"));
                 //  Geändert für 2022
                 RW = RW.add(new BigDecimal("1400"));
-                ST = (RW.multiply(Y)).setScale(0, BigDecimal.ROUND_DOWN);
+                ST = (RW.multiply(Y)).round(0, BigDecimal.RoundingModes.DOWN);
             } else {
                 if (X.compareTo(new BigDecimal("58597")) === -1)                 //  Geändert für 2022
 {
-                    Y = (X.subtract(new BigDecimal("14926"))).divide(ZAHL10000, 6, BigDecimal.ROUND_DOWN);
+                    Y = (X.subtract(new BigDecimal("14926"))).divide(ZAHL10000).round(6, BigDecimal.RoundingModes.DOWN);
                     //  Geändert für 2022
                     RW = Y.multiply(new BigDecimal("206.43"));
                     //  Geändert für 2022
                     RW = RW.add(new BigDecimal("2397"));
                     RW = RW.multiply(Y);
-                    ST = (RW.add(new BigDecimal("938.24"))).setScale(0, BigDecimal.ROUND_DOWN);
+                    ST = (RW.add(new BigDecimal("938.24"))).round(0, BigDecimal.RoundingModes.DOWN);
                     //  Geändert für 2022
                 } else {
                     if (X.compareTo(new BigDecimal("277826")) === -1)                     //  Geändert für 2022
 {
-                        ST = ((X.multiply(new BigDecimal("0.42"))).subtract(new BigDecimal("9267.53"))).setScale(0, BigDecimal.ROUND_DOWN);
+                        ST = ((X.multiply(new BigDecimal("0.42"))).subtract(new BigDecimal("9267.53"))).round(0, BigDecimal.RoundingModes.DOWN);
                         //  Geändert für 2022
                     } else {
-                        ST = ((X.multiply(new BigDecimal("0.45"))).subtract(new BigDecimal("17602.28"))).setScale(0, BigDecimal.ROUND_DOWN);
+                        ST = ((X.multiply(new BigDecimal("0.45"))).subtract(new BigDecimal("17602.28"))).round(0, BigDecimal.RoundingModes.DOWN);
                         //  Geändert für 2022
                     }
                 }
